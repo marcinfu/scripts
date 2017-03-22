@@ -7,6 +7,7 @@
 	Sprawdzenie czy istnieje grupa sudo, jesli nie to jej tworzenie
 	Sprawdzanie i tworzenie uzytkownikow
 	Pytanie czy dodac usera do grupy sudo
+	Sudo bez hasla
 	Pytanie o restart serwisu ssh
 KOMENTARZ
 
@@ -38,7 +39,7 @@ L_WIERSZY=`expr $L_POM - 1`
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 SUDO_CHECK=`cat /etc/group | grep sudo`
 SUDO_G_EXIST=0
-
+SUDOERS_CHECK=`cat /etc/sudoers | grep %sudo`
 
 echo -e "\\033[32m\n### add_ssh_users ###\n\\033[0m"
 
@@ -185,6 +186,24 @@ EOF
 	fi
 
 done
+
+if $SUDOERS_CHECK 2>/dev/null; then
+	echo "visudo - missing line with NOPASSWD login for sudo group"
+	echo -e "Do you want to add sudo group to NOPASSWD login? (y-yes n-no)"
+	read POTWIERDZENIE
+	if [ "$POTWIERDZENIE" = "y" ] || [ "$POTWIERDZENIE" = "yes" ]; then
+		echo -e "%sudo\tALL=(ALL)\tNOPASSWD:ALL">> /etc/sudoers
+	elif [ "$POTWIERDZENIE" = "n" ] || [ "$POTWIERDZENIE" = "no" ]; then
+		echo -e "\\033[31mExiting...\\033[0m";
+	else echo -e "\\033[31Unauthorized sign!\\033[0m";
+fi
+
+else
+        #wpis o logowanie bez hasla juz istnieje
+        #echo "visudo - line with NOPASSWD login for sudo group already exist"
+        :
+fi
+
 
 echo -e "\tLiczba dodanych uzytkownikow: $LICZNIK"
 echo -e "\t\nZrestartowac usluge sshd? (y-yes n-no)"
