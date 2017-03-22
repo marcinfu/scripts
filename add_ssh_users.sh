@@ -192,6 +192,7 @@ if $SUDOERS_CHECK 2>/dev/null; then
 	echo -e "Do you want to add sudo group to NOPASSWD login? (y-yes n-no)"
 	read POTWIERDZENIE
 	if [ "$POTWIERDZENIE" = "y" ] || [ "$POTWIERDZENIE" = "yes" ]; then
+		cp /etc/sudoers /etc/sudoers-$DATE
 		echo -e "%sudo\tALL=(ALL)\tNOPASSWD:ALL">> /etc/sudoers
 	elif [ "$POTWIERDZENIE" = "n" ] || [ "$POTWIERDZENIE" = "no" ]; then
 		echo -e "\\033[31mExiting...\\033[0m";
