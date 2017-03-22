@@ -142,9 +142,9 @@ ssh-rsa $KLUCZ
 EOF
 			#Dodanie uzytkownika do grupy sudo
 			if [ "$SUDO_G_EXIST" = "1" ]; then
-				echo $SUDO_G_EXIST wynosi 1
+				echo "$SUDO_G_EXIST wynosi 1"
 			else
-				echo $SUDO_G_EXIST wynosi 0
+				"echo $SUDO_G_EXIST wynosi 0"
 			fi
 
 			fi
