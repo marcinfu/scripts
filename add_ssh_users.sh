@@ -8,13 +8,6 @@
 #Pytanie czy dodac usera do grupy sudo
 #Pytanie o restart serwisu ssh
 
-L_POM=(`wc -l USERS.txt`)
-L_WIERSZY=`expr $L_POM - 1`
-#DATE=`date +%Y-%m-%d`
-DATE=`date +%Y-%m-%d:%H:%M:%S`
-SUDO_CHECK=`cat /etc/group | grep sudo`
-SUDO_G_EXIST=0
-
 #Dla CentOSa
 #Sprawdzenie czy to CentOS
 
@@ -37,6 +30,14 @@ EOF
                 exit 0
         fi
 fi
+
+L_POM=(`wc -l USERS.txt`)
+L_WIERSZY=`expr $L_POM - 1`
+#DATE=`date +%Y-%m-%d`
+DATE=`date +%Y-%m-%d:%H:%M:%S`
+SUDO_CHECK=`cat /etc/group | grep sudo`
+SUDO_G_EXIST=0
+
 
 echo -e "\\033[32m\n### add_ssh_users ###\n\\033[0m"
 
