@@ -1,4 +1,12 @@
-#Last update 2017-03-07
+#Last update 2017-03-22
+
+#Sprawdzenie czy istnieje plik USERS.txt
+#Kopia pliku sshd_config+data
+#Nowa wersja sshd_config umozliwiajaca logowanie po kluczu. Dla otadmin bez klucza
+#Sprawdzenie czy istnieje grupa sudo, jesli nie to jej tworzenie
+#Sprawdzanie i tworzenie uzytkownikow
+#Pytanie czy dodac usera do grupy sudo
+#Pytanie o restart serwisu ssh
 
 L_POM=(`wc -l USERS.txt`)
 L_WIERSZY=`expr $L_POM - 1`
@@ -9,6 +17,26 @@ SUDO_G_EXIST=0
 
 #Dla CentOSa
 #Sprawdzenie czy to CentOS
+
+#Sprawdzenie czy istnieje plik USERS.txt
+if [ -e "USERS.txt" ]; then
+        echo -e "USERS.txt istnieje\nProceed.."
+else
+        echo "USERS.txt nie istnieje!"
+        echo "Czy chcesz utworzyc plik USERS.txt? (y-yes n-no)"
+        read KEY
+        if [ "$KEY" = "y" ] || [ "$KEY" = "yes" ]; then
+        cat >> USERS.txt << EOF
+testtest AAAAAAA9ogusopduv[hvrvh[rh[vhorih[gh]hgh4o5hgo5hogh'5ohjgio5o
+EOF
+        elif [ "$KEY" = "n" ] || [ "$KEY" = "no" ]; then
+                echo -e "Brak pliku USERS.txt!\nexiting..."
+                exit 0
+        else
+                echo -e "Zle dane wejsciowe!\nexiting..."
+                exit 0
+        fi
+fi
 
 echo -e "\\033[32m\n### add_ssh_users ###\n\\033[0m"
 
@@ -75,7 +103,7 @@ Match user otadmin
 EOF
 
                 #echo -e "\n\n\t########################################"
-		
+
 		#Sprawdzenie czy istnieje grupa sudo
 		if $SUDO_CHECK 2>/dev/null; then
 		echo "sudo group does not exist"
