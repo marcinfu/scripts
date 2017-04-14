@@ -23,7 +23,7 @@ else
         read KEY
         if [ "$KEY" = "y" ] || [ "$KEY" = "yes" ]; then
         cat >> USERS.txt << EOF
-testtest AAAAAAA9ogusopduv[hvrvh[rh[vhorih[gh]hgh4o5hgo5hogh'5ohjgio5o
+marcifur AAAAB3NzaC1yc2EAAAADAQABAAABAQDLC2xZEjui5I0vCXy5yQrqr9++jD3IesHWbwvFy+3sM+GdUzp2f/Kp9ahjU7q+/fHXWOdkjGZVy+Aaa24riP4Lvy0JbI56Pp3dr9wdjVKW4iIfvOUbcdXHa0SxTQNhfzpP9yMxpj9F/mZISHmUm1Eczukz1HqJ0bCaAglU8yfo98cUONi42MhDxSt0tP6HpYR95LaBwgurH3xl4DDNSirTaux9/rlLVgX0jdPrIJivGh8tKx2CfOF8OIYClZ0zksyeGe6KuBPhmiMOQkn6zR3KLWs+8bUz7JOU2Bzpz0+OWaipZ9GJGVlU/0/P5ezIE8mMST0aEcSXGzaY5veEnPRT
 EOF
         elif [ "$KEY" = "n" ] || [ "$KEY" = "no" ]; then
                 echo -e "Brak pliku USERS.txt!\nexiting..."
