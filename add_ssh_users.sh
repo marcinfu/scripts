@@ -39,7 +39,7 @@ L_WIERSZY=`expr $L_POM - 1`
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 SUDO_CHECK=`cat /etc/group | grep sudo`
 SUDO_G_EXIST=0
-SUDOERS_CHECK=`cat /etc/sudoers | grep %sudo`
+SUDOERS_CHECK=`cat /etc/sudoers | grep NOPASSWD`
 
 echo -e "\\033[32m\n### add_ssh_users ###\n\\033[0m"
 
