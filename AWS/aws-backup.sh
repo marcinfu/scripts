@@ -27,7 +27,7 @@ NEWEST_FILE=`/bin/ls -t otlabs.fr* | head -1`
 echo "Najnowszy plik: $NEWEST_FILE"
 
 #otlabs.fr
-/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id ZF4FOVJ338X4P --profile marcifur > /home/marcifur/DNS/$TMP_FILE
+/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/$TMP_FILE
 
 COMPARED_FILES=`cmp last_dump $NEWEST_FILE`
 
@@ -48,12 +48,12 @@ fi
 
 
 #oberthur.net
-#aws route53 list-resource-record-sets --hosted-zone-id Z3QPW1RGRLD49C --profile marcifur > /home/marcifur/DNS/oberthur.net-$DATE
+#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/oberthur.net-$DATE
 #oberthurtest.net
-#aws route53 list-resource-record-sets --hosted-zone-id Z321DWEJB0MUH1 --profile marcifur > /home/marcifur/DNS/oberthurtest.net-$DATE
+#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/oberthurtest.net-$DATE
 #otlabs.io
-#aws route53 list-resource-record-sets --hosted-zone-id Z9ETOGU3CIGLZ --profile marcifur > /home/marcifur/DNS/otlabs.io-$DATE
+#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/otlabs.io-$DATE
 #smctr.net
-#aws route53 list-resource-record-sets --hosted-zone-id ZS5POEVFWBTXD --profile marcifur > /home/marcifur/DNS/smctr.net-$DATE
+#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/smctr.net-$DATE
 #moremagic.com
-#aws route53 list-resource-record-sets --hosted-zone-id Z3QHRWWVL7QLYL --profile marcifur > /home/marcifur/DNS/moremagic.com-$DATE
+#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/moremagic.com-$DATE
