@@ -1,59 +1,72 @@
-#!/bin/sh
+#!/bin/bash
+#last update 2017-04-21 - extend date; rm tmp file
+#last update 2017-04-20
+#created by marcifur
 
-cd /home/marcifur/DNS
-#Sprawdzenie czy istnieje plik pomocniczy last_dump
-if [ -e "last_dump" ]; then
-	:
-else
-        cat >> last_dump << EOF
-temp_file
-EOF
-fi
+DNS_HOME="/aws/DNS"
+cd $DNS_HOME
 
-#PATH=/usr/bin:/usr/local/bin
-DATE=`/bin/date +%Y-%m-%d`
-#plik_pomocniczy
-TMP_FILE=last_dump
-#najnowszy plik
-#sprawdzic czy istnieje plik najnowszy, jesli nie to stworzyc
-if `/bin/ls | grep otlabs.fr*` 2>/dev/null; then
-	NEWEST_FILE=`/bin/ls -t otlabs.fr* | head -1`
-	echo plik nie istnieje
-else
-	NEWEST_FILE=last_dump2
-	echo plik istnieje
-fi
-NEWEST_FILE=`/bin/ls -t otlabs.fr* | head -1`
-echo "Najnowszy plik: $NEWEST_FILE"
+DATE=`/bin/date +%Y-%m-%d:%H:%M:%S`
+echo -e "\n"
 
-#otlabs.fr
-/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/$TMP_FILE
+for DOMENA in `cat /aws/scripts/domeny.txt`;do
+	echo "\\033[34m! $DOMENA !\\033[0m"
+	#plik_pomocniczy - ostatni dump bazy
+	TMP_FILE=1-last_dump-$DOMENA
 
-COMPARED_FILES=`cmp last_dump $NEWEST_FILE`
-
-if $COMPARED_FILES 2>/dev/null; then
-        echo "File is up to date. Nothing to do"
-#        echo Nalezy usunac pliki tymczasowe
-	#rm last_dump
-	#PLIKI=`ls /home/marcifur/DNS -l | grep last_dump`
-	#if [ "$PLIKI" != "" ]; then
-	#	rm last_dump
-	#fi
+	#sprawdzic czy istnieje najnowszy plik, jesli nie to stworzyc
+	for i in $DOMENA*; do test -f "$i" && echo "exists one or more files" && L=1 && break || echo "no files!" && L=0; done
+	#echo $L
 	
-else
-        echo "There are some differents. Adding new file."
-        cp $TMP_FILE otlabs.fr-$DATE
+	if [ $L = 1 ]; then
+		NEWEST_FILE=`/bin/ls -t $DOMENA* | head -1`
+		echo newest file exist
+	elif [ $L = 0 ]; then
+		echo temp_file >> $DNS_HOME/tmp_newest_file
+		NEWEST_FILE=tmp_newest_file
+		echo newest file does not exist
+	else
+		echo there is some wrong!
+		break;
+	fi
+
+	echo "The newest file: $NEWEST_FILE"
+
+	#otlabs.fr
+	if [ $DOMENA = "otlabs.fr" ];then
+		/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXXXXX --profile marcifur > $DNS_HOME/$TMP_FILE
+	#oberthur.net
+	elif [ $DOMENA = "oberthur.net" ];then
+		/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXXXXX --profile marcifur > $DNS_HOME/$TMP_FILE
+	#oberthurtest.net
+	elif [ $DOMENA = "oberthurtest.net" ];then
+		/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXXXXX --profile marcifur > $DNS_HOME/$TMP_FILE
+	#otlabs.io
+	elif [ $DOMENA = "otlabs.io" ];then
+		/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXXXXX --profile marcifur > $DNS_HOME/$TMP_FILE
+	#smctr.net
+	elif [ $DOMENA = "smctr.net" ];then
+		/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXXXXX --profile marcifur > $DNS_HOME/$TMP_FILE
+	#moremagic.com
+	elif [ $DOMENA = "moremagic.com" ];then
+		/usr/local/bin/aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXXXXX --profile marcifur > $DNS_HOME/$TMP_FILE
+	else
+		echo "Dodano wszystkie domeny!"
+	fi
+
+	COMPARED_FILES=`cmp $TMP_FILE $NEWEST_FILE`
+
+	if $COMPARED_FILES 2>/dev/null; then
+        	echo "File is up to date. Nothing to do"
+	else
+        	echo "There are some differents. Adding new file."
+	        cp $TMP_FILE $DOMENA-$DATE
+	fi
+done
+#czyszczenie
+PLIKI=`ls $DNS_HOME -l | grep tmp_newest_file`
+if [ "$PLIKI" != "" ]; then
+	rm tmp_newest_file
 fi
 
-
-
-#oberthur.net
-#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/oberthur.net-$DATE
-#oberthurtest.net
-#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/oberthurtest.net-$DATE
-#otlabs.io
-#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/otlabs.io-$DATE
-#smctr.net
-#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/smctr.net-$DATE
-#moremagic.com
-#aws route53 list-resource-record-sets --hosted-zone-id XXXXXXXXXX --profile marcifur > /home/marcifur/DNS/moremagic.com-$DATE
+echo -e "\n\\033[31m$DATE\\033[0m\n"
