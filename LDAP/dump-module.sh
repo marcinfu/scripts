@@ -18,7 +18,7 @@ if [ -e $NAZWA_PLIKU ]; then
 	echo -e "$NAZWA_PLIKU exist!\nShould be overwrite?.."
 	read KEY
 	if [ "$KEY" = "y" ] || [ "$KEY" = "yes" ]; then
-		ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=sbu,ou=users,dc=otlabs" > $NAZWA_PLIKU
+		ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=users,dc=otlabs" > $NAZWA_PLIKU
 		#grupy
 		#ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=Groups,dc=otlabs" > 2$NAZWA_PLIKU
 		echo -e "\nDump bazy LDAP zapisany do pliku o nazwie: $NAZWA_PLIKU"
@@ -29,7 +29,7 @@ if [ -e $NAZWA_PLIKU ]; then
 		echo -e "Wrong key\nexiting..."
 	fi
 else
-	ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=sbu,ou=users,dc=otlabs" > $NAZWA_PLIKU
+	ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=users,dc=otlabs" > $NAZWA_PLIKU
 	#grupy
 	#ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=Groups,dc=otlabs" > 2$NAZWA_PLIKU
 	echo -e "\nDump bazy LDAP zapisany do pliku o nazwie: $NAZWA_PLIKU"

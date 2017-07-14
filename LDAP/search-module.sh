@@ -22,12 +22,14 @@ echo -e "\nJesli pojawil sie szukany uzytkownik, to oznacza ze istnieje juz w ba
 			if [ -z $IMIE ]; then
 				echo -e "\e[93m(i) Nie podano IMIENIA w pliku USERS.txt dla użytkownika o NAZWISKU - $NAZWISKO\\033[0m"
 			else
-				ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=sbu,ou=users,dc=otlabs" | grep dn: | grep -i $IMIE  >> ldap-users.txt
+				#ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=sbu,ou=users,dc=otlabs" | grep dn: | grep -i $IMIE  >> ldap-users.txt
+				ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=users,dc=otlabs" | grep dn: | grep -i $IMIE  >> ldap-users.txt
 			fi
 			if [ -z $NAZWISKO ]; then
 				echo -e "\e[93m(i) Nie podano NAZWISKA w pliku USERS.txt dla użytkownika o IMIENIU - $IMIE\n(i) Wyszukuje wszystkich o IMIENIU $IMIE\\033[0m"
 			else
-				ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=sbu,ou=users,dc=otlabs" | grep dn: | grep -i $NAZWISKO >> ldap-users.txt
+				#ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=sbu,ou=users,dc=otlabs" | grep dn: | grep -i $NAZWISKO >> ldap-users.txt
+				ldapsearch -D cn=admin,dc=otlabs -z 1000 -h $HOST -p $PORT -w $PASS -b "ou=users,dc=otlabs" | grep dn: | grep -i $NAZWISKO >> ldap-users.txt
 			fi
 		fi
 
