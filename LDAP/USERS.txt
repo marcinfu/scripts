@@ -1,12 +1,2 @@
 #IMIE | NAZWISKO | MAIL
-Jan Jankowski j.jankowski@oberthur.com
-Test Testowy t.testowy@oberthur.com
-Tadeusz Kowalski t.kowalski@oberthur.com
-ZDZISLAW WOLSKI Z.Wolski@oberthur.com
-Michal MALENGOWSKI
-Tomasz
-Marcin
-Yuri
-Damian KIkolSki
-Kamil Kazimierczak k.kazimierczak@oberthur.com
-Radek
+Radek Antoniuk

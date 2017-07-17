@@ -9,6 +9,17 @@
 EXT_PASS="no"
 source server.conf;
 
+#Sprawdzenie poprawnosci pliku server.conf
+if [ $EXT_PASS = "yes" ]; then
+		:
+        elif [ $EXT_PASS = "no" ]; then
+		:
+	else
+		echo "ERROR - no valid EXT_PASS=$EXT_PASS in server.conf!"
+		exit 0;
+fi
+
+
 #Sprawdzenie czy istnieje plik USERS.txt
 if [ -e "USERS.txt" ]; then
         echo -e "USERS.txt istnieje\nProceed.."
@@ -96,7 +107,7 @@ done
 
 fi
 
-echo -e "\nToDO\n\x1b[7m- sprawdzanie czy zainstalowane ldap-utilsy, a jak nie to pytanie czy instalowac: sudo apt-get install ldap-utils - OK\n- szukanie zarowno po malych jak i wielkich literach! - OK\n- sprawdzenie czy istnieje plik USERS.txt - OK\x1b[m\n- szukalem Jan Jankowski, a znalazl cn=Jan JankowskiTEST - trzeba poprawic\n- dodac modyfikacje maila i uuid na male litery\n- dodac petle z menu zamiast zakonczenia dzialania programu po zle wprowadzonym znaku\n- ldap_add: Already exists (68) -> po tym nie dodaje kolejnych\n- szukanie po NAZWISKU. Obecnie po wpisaniu jednego slowa jest ono traktowane jako IMIE\n- dodac mozliwosc wprowadzania dwoch imion. Obecnie kolejne slowa to IMIE, NAZWISKO i MAIL\n- dodac do search-module mozliwosc wyswietlenia calej struktury w postaci drzewa\n\x1b[7m- pytanie o haslo do bazy i wyswietlenie adresu ip i portu do zweryfikowania prez uzytkownika + test polaczenia, jesli niepoprawne zapytaj czy chce podac haslo jeszcze raz czy zakonczyc dzialanie programu - OK\x1b[m\n- przy dumpie nadpisuje plik. Nalezy dodac sprawdzanie czy dany plik istnieje i czy go zastapic\n- weryfikacja poprawnosci pliku server.conf. Sprawdzic m.in. EXT_PASS i PASS"
+echo -e "\nToDO\n\x1b[7m- sprawdzanie czy zainstalowane ldap-utilsy, a jak nie to pytanie czy instalowac: sudo apt-get install ldap-utils - OK\n- szukanie zarowno po malych jak i wielkich literach! - OK\n- sprawdzenie czy istnieje plik USERS.txt - OK\x1b[m\n- szukalem Jan Jankowski, a znalazl cn=Jan JankowskiTEST - trzeba poprawic\n- dodac modyfikacje maila i uuid na male litery\n- dodac petle z menu zamiast zakonczenia dzialania programu po zle wprowadzonym znaku\n- ldap_add: Already exists (68) -> po tym nie dodaje kolejnych\n- szukanie po NAZWISKU. Obecnie po wpisaniu jednego slowa jest ono traktowane jako IMIE\n- dodac mozliwosc wprowadzania dwoch imion. Obecnie kolejne slowa to IMIE, NAZWISKO i MAIL\n- dodac do search-module mozliwosc wyswietlenia calej struktury w postaci drzewa\n\x1b[7m- pytanie o haslo do bazy i wyswietlenie adresu ip i portu do zweryfikowania prez uzytkownika + test polaczenia, jesli niepoprawne zapytaj czy chce podac haslo jeszcze raz czy zakonczyc dzialanie programu - OK\n\x1b[7m- przy dumpie nadpisuje plik. Nalezy dodac sprawdzanie czy dany plik istnieje i czy go zastapic - OK\x1b[m\n- weryfikacja poprawnosci pliku server.conf. Sprawdzic m.in. EXT_PASS i PASS\n- na poczatku zapytanie czy dane zaczytac z pliku USERS.txt czy beda wprowadzane recznie"
 cat << "EOF"
 	||||  |||| |||||| ||||  ||| ||| |||
 	||| || ||| |||    ||| | ||| ||| |||
@@ -105,7 +116,7 @@ cat << "EOF"
 	|||    ||| |||||| |||   ||| |||||||
 EOF
 
-echo -e "\n\t###################\n\t\\033[36m1 - search-module\n\t2 - add-module\n\t3 - mod_cn-module\n\t4 - dump\n\t0 - exit\\033[0m\n\t###################\n"
+echo -e "\n\t###################\n\t\\033[36m1 - search-module\n\t2 - add-module\n\t3 - mod_cn-module\n\t4 - dump\n\t5 - add_user_to_group\n\t6 - remove_user_from_group\n\t0 - exit\\033[0m\n\t###################\n"
 read WYBOR
 #Sprawdzenie czy wybrano jedna z opcji
 if [ -z "$WYBOR" ]; then
@@ -132,6 +143,13 @@ elif [ $WYBOR -eq $WYBOR 2> /dev/null ]; then
 
 		source dump-module.sh;
 
+	elif [ $WYBOR = 5 ]; then
+
+		source add-user-to-group-module.sh;
+
+	elif [ $WYBOR = 6 ]; then
+	
+		source remove-user-from-group-module.sh;
 
 	elif [ $WYBOR = 0 ]; then
 		echo "Bye!"
